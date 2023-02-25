@@ -22,7 +22,6 @@ export const FieldArrayTypes =
 
   export interface FormQuestion {
     questionFieldsOrder: string[];
-    questionFieldsObj: {[id:string]: FieldDoc}  ;
     questionName: string;
     questionText: string;
   }
@@ -31,7 +30,7 @@ export const FieldArrayTypes =
     formName: string;
     formText: string;
     questionOrder: string[];
-    formQuestionObj: { [id:string] : FormQuestion}
-  
+    formQuestionObj: { [id:string] : FormQuestion};
+    formFields:{[id:string]: FieldDoc};   
   }
   
