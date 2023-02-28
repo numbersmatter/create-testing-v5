@@ -33,3 +33,38 @@ export const db = {
   // questionFields : (formId:string, questionId:string)=> dataPoint<FieldDoc>(
   //   `${version4Url}/testForms/${formId}/testFormQuestions/${questionId}/fields`)
 };
+
+// what does updating an object look like 
+
+const akwardSilence = undefined;
+
+const obj = {
+  a: "hi",
+  b: " nice to meet you",
+  c: akwardSilence
+}
+const showobj2 = {
+  a: "hi",
+  b: " nice to meet you",
+  c: akwardSilence,
+  newId: "123"
+}
+
+//   { a:"hi", b:"nice to meet you", c: awkwardSilence}
+const obj2 = { ...obj,  newId: "123"}
+const obj2giveprop = { ...obj,  c: "123"}
+
+
+const showobj2giveprop = {
+  a: "hi",
+  b: " nice to meet you",
+  c: "123",
+}
+
+const array = [ a, b, c, d]
+
+const newArray = [...array, e]
+
+
+
+

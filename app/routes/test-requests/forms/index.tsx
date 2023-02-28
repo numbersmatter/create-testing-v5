@@ -1,12 +1,12 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { getTestFormQuestions, getTestForms } from "~/server/route-logic/test-requests/test-requests.server";
+import { getTestForms } from "~/server/route-logic/test-requests/test-requests.server";
 
 
 export async function loader({params}:LoaderArgs) {
   
-  const forms = await getTestForms(params)
+  const forms = await getTestForms()
 
   return json({forms});  
 }

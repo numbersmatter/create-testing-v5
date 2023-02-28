@@ -2,22 +2,31 @@ import type { LoaderArgs, ActionArgs} from "@remix-run/node";
 import { redirect} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { z } from "zod";
 import type { Field } from "~/server/route-logic/requests/types";
 import QuestionPanel from "~/server/route-logic/requests/ui/forms/QuestionPanel";
-import { handleUserRequestToCreateForm, writeFormToDb } from "~/server/route-logic/test-requests";
+import { addForm } from "~/server/route-logic/test-requests";
+
 // import type { Field } from "~/server/route-logic/requests/types";
 // import QuestionPanel from "~/server/route-logic/requests/ui/forms/QuestionPanel";
 // import { handleUserRequestToCreateForm, writeFormToDb } from "~/server/route-logic/test-requests/test-requests.server";
 
 
 export async function action({params, request}:ActionArgs) {
-  const checkDataShape =await handleUserRequestToCreateForm(params, request);
+  const formValues = Object.fromEntries( await request.formData());
+
+  const TestFormSchema = z.object({
+    formName: z.string().min(2, "Form Name must be at least 2 characters"),
+    formText: z.string(),
+  })
+  
+  const checkDataShape = TestFormSchema.safeParse(formValues)
 
     if(!checkDataShape.success){
     return checkDataShape.error;
   }else{
     const formDoc = { ...checkDataShape.data, questionOrder:[], formQuestionObj: {}}
-    const formWrite = await writeFormToDb(formDoc);
+    const formWrite = await addForm(formDoc);
     return redirect(`/test-requests/forms/${formWrite.formId}`)
   }
 

@@ -2,9 +2,9 @@ import type { LoaderArgs, ActionArgs} from "@remix-run/node";
 import { redirect} from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
+import { z } from "zod";
 import type { Field } from "~/server/route-logic/requests/types";
 import QuestionPanel from "~/server/route-logic/requests/ui/forms/QuestionPanel";
-import { safeParseAddFormQuestion, writeNewQuestionToDb } from "~/server/route-logic/test-requests";
 // import type { Field } from "~/server/route-logic/requests/types";
 // import QuestionPanel from "~/server/route-logic/requests/ui/forms/QuestionPanel";
 // import { safeParseAddFormQuestion,writeNewQuestionToDb, writeQuestionIdToForm } from "~/server/route-logic/test-requests/test-requests.server";
@@ -12,8 +12,16 @@ import { safeParseAddFormQuestion, writeNewQuestionToDb } from "~/server/route-l
 
 export async function action({params, request}:ActionArgs) {
   const formId = params.formId ?? "no-formId";
+  const formValues = Object.fromEntries(await request.formData());
+
+  const FormQuestionSchema = z.object({
+    questionName: z.string().min(2, "Question Name must be at least 2 characters"),
+    questionText: z.string(),
+  });
+
+  const checkDataShape = FormQuestionSchema.safeParse(formValues);
   
-  const checkDataShape =await safeParseAddFormQuestion(params, request);
+  // const checkDataShape =await safeParseAddFormQuestion(params, request);
 
     if(!checkDataShape.success){
     return checkDataShape.error;
