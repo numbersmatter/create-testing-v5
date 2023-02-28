@@ -1,7 +1,7 @@
 import type { QueryDocumentSnapshot } from "firebase-admin/firestore";
 import { getFirestore } from "firebase-admin/firestore";
 import type { FormInstanceDoc  } from "./route-logic/requests/types";
-import type { FormDoc} from "./route-logic/test-requests/types";
+import type { FieldDoc, FormDoc, FormQuestion} from "./route-logic/test-requests/types";
 
 // helper function to convert firestore data to typescript
 const converter = <T>() => ({
@@ -26,12 +26,12 @@ const versionUrl = "testCollection/version5"
 export const db = {
   userNotes: (uid: string) => dataPoint<Note>(`users/${uid}/notes`),
   requests: () => dataPoint<FormInstanceDoc>(`${versionUrl}/requests`),
-  // testFormQuestions: (formId: string) => dataPoint<FormQuestion>(
-  //   `${version4Url}/testForms/${formId}/testFormQuestions/`),
+  testFormQuestions: () => dataPoint<FormQuestion>(
+    `${versionUrl}/testFormQuestions/`),
   testForms: () => dataPoint<FormDoc>(`${versionUrl}/testForms`),
   unique: () =>dataPoint('unique'),
-  // questionFields : (formId:string, questionId:string)=> dataPoint<FieldDoc>(
-  //   `${version4Url}/testForms/${formId}/testFormQuestions/${questionId}/fields`)
+  questionFields : ()=> dataPoint<FieldDoc>(
+    `${versionUrl}/fields`)
 };
 
 // what does updating an object look like 
@@ -61,9 +61,8 @@ const showobj2giveprop = {
   c: "123",
 }
 
-const array = [ a, b, c, d]
 
-const newArray = [...array, e]
+
 
 
 

@@ -30,7 +30,5 @@ export const FieldArrayTypes =
     formName: string;
     formText: string;
     questionOrder: string[];
-    formQuestionObj: { [id:string] : FormQuestion};
-    formFields:{[id:string]: FieldDoc};   
   }
   

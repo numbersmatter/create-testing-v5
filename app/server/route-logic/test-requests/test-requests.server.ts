@@ -71,3 +71,50 @@ export const addFormQuestion = async (
 
 }
 
+const getFormDocById = async ( formId: string)=> {
+  const formRef = db.testForms().doc(formId);
+  const formSnap = await formRef.get();
+  const formDoc = formSnap.data();
+
+  if(!formDoc){
+    return undefined;
+  };
+
+  return { ...formDoc, formId}
+};
+
+
+
+
+// document with collection calls
+// this is useful for constructing  display version patterns
+
+// construct requestDoc
+const makeRequestDoc = async (formId: string) => {
+  //  get one doc by Id
+  const formDocSnap = await db.testForms().doc(formId).get();
+  const questions = await db.testFormQuestions().where("formId", "==", formId);
+  const fields = await db.questionFields().where("formId", "==", formId);
+
+
+  const formDoc = formDocSnap.data();
+
+  if(!formDoc){
+    return undefined;
+  }
+
+  const questionOrder = formDoc.questionOrder;
+  
+
+
+
+}
+
+
+
+
+
+
+
+
+
